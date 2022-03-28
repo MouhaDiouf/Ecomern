@@ -1,0 +1,10 @@
+.product__carousel--image {
+    width: 90%;
+    max-width: 400px;
+    object-fit: cover;
+}
+
+.alice-carousel__prev-btn,
+.alice-carousel__next-btn {
+    display: none;
+}
