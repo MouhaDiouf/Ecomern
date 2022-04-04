@@ -7,16 +7,38 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import appleWatchFirst from "../images/apple-watch__second--slide.png";
 import appleWatchThird from "../images/apple-watch__third--slide.png";
 import "./ProductPage.css";
+import SimilarProduct from "../ components/SimilarProduct";
 
 //https://n7nqziuw1z4b1r6k2adhav10-wpengine.netdna-ssl.com/wp-content/uploads/2020/03/Brooklinen-Product-Page-1024x579.png.webp
 function ProductPage() {
+    const responsive = {
+        0: { items: 1 },
+        568: { items: 2 },
+        1024: { items: 3 },
+    };
     const handleDragStart = (e) => e.preventDefault();
     const items = [
         <img className="product__carousel--image" src={appleWatchFirst} onDragStart={handleDragStart} />,
         <img className="product__carousel--image" src={appleWatchThird} onDragStart={handleDragStart} />,
         <img className="product__carousel--image" src={appleWatchThird} onDragStart={handleDragStart} />,
     ];
-
+    const similarProducts = [
+        <div className="item" data-value="1">
+            <SimilarProduct />
+        </div>,
+        <div className="item" data-value="2">
+            <SimilarProduct />
+        </div>,
+        <div className="item" data-value="3">
+            <SimilarProduct />
+        </div>,
+        <div className="item" data-value="4">
+            <SimilarProduct />
+        </div>,
+        <div className="item" data-value="5">
+            <SimilarProduct />
+        </div>,
+    ];
     return (
         <>
             <Container className="pt-4">
@@ -45,6 +67,12 @@ function ProductPage() {
                         </ButtonGroup>
                     </Col>
                 </Row>
+                <div className="my-4">
+                    <h2>Similar products</h2>
+                    <div className="d-flex justify-content-center align-items-center flex-wrap">
+                        <AliceCarousel mouseTracking items={similarProducts} responsive={responsive} controlsStrategy="alternate" />
+                    </div>
+                </div>
             </Container>
         </>
     );

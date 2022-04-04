@@ -1,8 +1,11 @@
 import React from "react";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 
 function Navigation() {
+    const user = useSelector((state) => state.user);
+    console.log("user", user);
     return (
         <Navbar bg="light" expand="lg">
             <Container>
@@ -14,16 +17,29 @@ function Navigation() {
                     <Nav className="ms-auto">
                         <LinkContainer to="/cart">
                             <Nav.Link>
-                                <i class="fas fa-shopping-cart"></i>
+                                <i className="fas fa-shopping-cart"></i>
                             </Nav.Link>
                         </LinkContainer>
+                        {!user && (
+                            <NavDropdown title="Account" id="basic-nav-dropdown">
+                                <LinkContainer to="/signup">
+                                    <NavDropdown.Item>Signup</NavDropdown.Item>
+                                </LinkContainer>
+                            </NavDropdown>
+                        )}
 
-                        <NavDropdown title="Account" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown>
+                        {user && (
+                            <NavDropdown title={`${user.email}`} id="basic-nav-dropdown">
+                                <LinkContainer to="/account">
+                                    <NavDropdown.Item>Your account</NavDropdown.Item>
+                                </LinkContainer>
+                                <LinkContainer to="/cart">
+                                    <NavDropdown.Item>Cart</NavDropdown.Item>
+                                </LinkContainer>
+                                <NavDropdown.Divider />
+                                <Button variant="danger">Logout</Button>
+                            </NavDropdown>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
