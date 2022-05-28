@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Form, Button, Row, Container, Col } from "react-bootstrap";
+import { Form, Button, Row, Container, Col, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useSignupMutation } from "../services/appApi";
 import "./Signup.css";
 
@@ -7,12 +8,10 @@ function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [loading, setLoading] = useState(false);
     const [signup, { isLoading, error, isError }] = useSignupMutation();
 
     function handleSignup(e) {
         e.preventDefault();
-        setLoading(true);
         signup({ name, email, password });
     }
     return (
@@ -21,6 +20,7 @@ function Signup() {
                 <Col md={6} className="signup__form--container">
                     <Form style={{ width: "100%" }} onSubmit={handleSignup}>
                         <h1 className="text-center">Create account</h1>
+                        {isError && <Alert variant="danger">{error.data}</Alert>}
                         <Form.Group className="mb-3" controlId="formGroupName">
                             <Form.Label>Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -34,10 +34,13 @@ function Signup() {
                             <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                         </Form.Group>
                         <Form.Group>
-                            <Button type="submit" disabled={loading}>
+                            <Button type="submit" disabled={isLoading}>
                                 Signup
                             </Button>
                         </Form.Group>
+                        <p className="pt-3 text-center">
+                            Already have an account? <Link to="/login">Login</Link>
+                        </p>
                     </Form>
                 </Col>
                 <Col md={6} className="signup__image--container"></Col>

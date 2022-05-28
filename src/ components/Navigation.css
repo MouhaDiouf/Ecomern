@@ -1,0 +1,10 @@
+.notifications-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    max-height: 200px;
+    overflow-y: scroll;
+    border: 1px solid gray;
+    background-color: white;
+    padding-left: 20px;
+    width: 200px;
+}

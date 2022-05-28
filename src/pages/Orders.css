@@ -1,0 +1,20 @@
+.order-product img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.order-product {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.order-product h3 {
+    font-weight: 400;
+    font-size: 18px;
+    text-align: center;
+}
+
+.order-details-container {
+    width: 100%;
+    text-align: center;
+}

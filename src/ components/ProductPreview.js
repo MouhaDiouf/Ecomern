@@ -2,16 +2,21 @@ import React from "react";
 import { Badge, Button, Card } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./ProductPreview.css";
-function ProductPreview({ title, price, category }) {
+// https://dribbble.com/shots/15848860-OYOTEE-Plant-Shop-Website
+function ProductPreview({ _id, title, price, category, name, pictures }) {
     return (
-        <LinkContainer to="/product/mlkdsjfsmdkfj" style={{ cursor: "pointer", width: "20rem", margin: "10px" }}>
+        <LinkContainer to={`/product/${_id}`} style={{ cursor: "pointer", width: "13rem", margin: "10px" }}>
             <Card style={{ width: "20rem", margin: "10px" }}>
-                <Card.Img variant="top" className="product-preview-img" src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=694&q=80" />
+                <Card.Img
+                    variant="top"
+                    className="product-preview-img"
+                    src={pictures[0].url || "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=694&q=80"}
+                />
                 <Card.Body>
-                    <Card.Title>Watch</Card.Title>
+                    <Card.Title>{name}</Card.Title>
                     <Badge bg="warning" text="dark">
-                        technology
-                    </Badge>{" "}
+                        {category}
+                    </Badge>
                     <br />
                 </Card.Body>
             </Card>

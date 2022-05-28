@@ -1,0 +1,13 @@
+.cart-payment-container {
+    border-right: 2px solid lightgray;
+}
+
+.fa-plus-circle,
+.fa-minus-circle {
+    cursor: pointer;
+}
+
+.table-responsive-sm {
+    max-height: 70vh;
+    overflow-y: scroll;
+}

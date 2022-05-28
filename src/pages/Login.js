@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Container, Col, Alert } from "react-bootstrap";
-import { useLoginMutation, useSignupMutation } from "../services/appApi";
+import { Link } from "react-router-dom";
+import { useLoginMutation } from "../services/appApi";
 import "./Signup.css";
 
 function Login() {
@@ -32,6 +33,9 @@ function Login() {
                                 Login
                             </Button>
                         </Form.Group>
+                        <p className="pt-3 text-center">
+                            Don't have a account? <Link to="/signup">Signup</Link>
+                        </p>
                     </Form>
                 </Col>
                 <Col md={6} className="login__image--container"></Col>
