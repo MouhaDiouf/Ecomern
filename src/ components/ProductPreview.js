@@ -1,8 +1,8 @@
 import React from "react";
-import { Badge, Button, Card } from "react-bootstrap";
+import { Badge, Card } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./ProductPreview.css";
-// https://dribbble.com/shots/15848860-OYOTEE-Plant-Shop-Website
+
 function ProductPreview({ _id, title, price, category, name, pictures }) {
     return (
         <LinkContainer to={`/product/${_id}`} style={{ cursor: "pointer", width: "13rem", margin: "10px" }}>

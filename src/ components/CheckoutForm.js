@@ -1,6 +1,6 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
-import { Col, Form, Row, Button, Spinner } from "react-bootstrap";
+import { Col, Form, Row, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import AlertMessage from "./AlertMessage";
 import { useCreateOrderMutation } from "../services/appApi";
@@ -13,6 +13,8 @@ function CheckoutForm({ total, paying, setPaying }) {
     const navigate = useNavigate();
     const [alertMessage, setAlertMessage] = useState("");
     const [createOrder, { isLoading, error, isSuccess, isError }] = useCreateOrderMutation();
+    const [country, setCountry] = useState("");
+    const [address, setAddress] = useState("");
     async function handlePay(e) {
         e.preventDefault();
 
@@ -34,7 +36,7 @@ function CheckoutForm({ total, paying, setPaying }) {
         setPaying(false);
 
         if (paymentIntent) {
-            createOrder({ userId: user._id, cart: user.cart }).then((res) => {
+            createOrder({ userId: user._id, cart: user.cart, address, country }).then((res) => {
                 if (!isLoading && !isError) {
                     setAlertMessage(`Payment ${paymentIntent.status}`);
                     setTimeout(() => {
@@ -68,13 +70,13 @@ function CheckoutForm({ total, paying, setPaying }) {
                     <Col md={7}>
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor="address">Address</Form.Label>
-                            <Form.Control type="text" placeholder="Address" id="address" required />
+                            <Form.Control type="text" placeholder="Address" id="address" required value={address} onChange={(e) => setAddress(e.target.value)} />
                         </Form.Group>
                     </Col>
                     <Col md={5}>
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor="country">Country</Form.Label>
-                            <Form.Control type="text" placeholder="Country" id="country" />
+                            <Form.Control type="text" placeholder="Country" id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
                         </Form.Group>
                     </Col>
                 </Row>

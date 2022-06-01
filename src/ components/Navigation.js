@@ -6,6 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { logoutUser, resetNotifications } from "../features/userSlice";
 import "./Navigation.css";
 import { useNavigate } from "react-router-dom";
+
 function Navigation() {
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ function Navigation() {
     const notificationsRef = useRef(null);
     const [bellPos, setBellPos] = useState({});
     const navigate = useNavigate();
-    // https://blog.greenroots.info/a-notification-timeline-using-react
+
     function handleLogout() {
         dispatch(logoutUser());
         navigate("/login");
@@ -38,7 +39,7 @@ function Navigation() {
         <Navbar bg="light" expand="lg">
             <Container>
                 <LinkContainer to="/">
-                    <Navbar.Brand>Ecom</Navbar.Brand>
+                    <Navbar.Brand>Ecomern</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -91,7 +92,7 @@ function Navigation() {
                                         </>
                                     )}
                                     <NavDropdown.Divider />
-                                    <Button variant="danger" onClick={() => handleLogout()}>
+                                    <Button variant="danger" onClick={() => handleLogout()} className="logout-btn">
                                         Logout
                                     </Button>
                                 </NavDropdown>

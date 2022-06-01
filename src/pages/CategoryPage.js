@@ -33,9 +33,6 @@ const CategoryPage = () => {
 
     const productSearch = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    if (productSearch.length === 0) {
-        return <h1 className="text-center">No products in that category</h1>;
-    }
     return (
         <div className="category-page-container">
             <div className={`pt-3 ${category}-banner-container category-banner-container`}>
@@ -44,17 +41,22 @@ const CategoryPage = () => {
             <div className="filters-container d-flex justify-content-center pt-4 pb-4">
                 <input type="search" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
-            <Container>
-                <Row>
-                    <Col md={{ span: 10, offset: 1 }}>
-                        {productSearch.length === 0 && searchTerm ? (
-                            <h2 className="text-center">No results found</h2>
-                        ) : (
-                            <Pagination data={productSearch} RenderComponent={ProductPreview} pageLimit={Math.floor(productSearch.length / 10)} dataLimit={10} />
-                        )}
-                    </Col>
-                </Row>
-            </Container>
+
+            {productSearch.length === 0 ? (
+                <h1 className="text-center">No products in that category</h1>
+            ) : (
+                <Container>
+                    <Row>
+                        <Col md={{ span: 10, offset: 1 }}>
+                            {productSearch.length === 0 && searchTerm ? (
+                                <h2 className="text-center">No results found</h2>
+                            ) : (
+                                <Pagination data={productSearch} RenderComponent={ProductPreview} pageLimit={Math.floor(productSearch.length / 10)} dataLimit={10} />
+                            )}
+                        </Col>
+                    </Row>
+                </Container>
+            )}
         </div>
     );
 };

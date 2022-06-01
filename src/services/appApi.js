@@ -42,7 +42,7 @@ export const appApi = createApi({
             }),
         }),
 
-        deleteProducts: builder.mutation({
+        deleteProduct: builder.mutation({
             query: (body) => ({
                 url: `/products/delete-many`,
                 method: "POST",
@@ -102,7 +102,7 @@ export const {
     useDecreaseCartProductMutation,
     useCreateOrderMutation,
     useUpdateProductMutation,
-    useDeleteProductsMutation,
+    useDeleteProductMutation,
     useDeleteUsersMutation,
 } = appApi;
 

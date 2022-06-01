@@ -1,31 +1,60 @@
 import axios from "../axios";
 import React, { useEffect, useState } from "react";
 import { Badge, Button, Modal, Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
 import Loading from "./Loading";
-import socketConnection from "../socketConnection";
-import { BootstrapTable } from "react-bootstrap-table";
-import { TableHeaderColumn } from "react-bootstrap-table";
-import { useDeleteProductsMutation } from "../services/appApi";
+import Pagination from "./Pagination";
+import { useSelector } from "react-redux";
 
 function DashboardOrders() {
-    const products = useSelector((state) => state.products);
-    const user = useSelector((state) => state.user);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = (order) => {
-        setOrderToShow(order);
-        setShow(true);
-    };
-    const [orderToShow, setOrderToShow] = useState(null);
     const [orders, setOrders] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [deleteMany] = useDeleteProductsMutation();
+    const products = useSelector((state) => state.products);
+    const [orderToShow, setOrderToShow] = useState([]);
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    function showOrder(productsObj) {
+        let productsToShow = products.filter((product) => productsObj[product._id]);
+        productsToShow = productsToShow.map((product) => {
+            const productCopy = { ...product };
+            productCopy.count = productsObj[product._id];
+            delete productCopy.description;
+            return productCopy;
+        });
+        setShow(true);
+        setOrderToShow(productsToShow);
+    }
+
+    function TableRow({ _id, count, owner, total, status, products, address }) {
+        return (
+            <tr>
+                <td>{_id}</td>
+                <td>{owner?.name}</td>
+                <td>{count}</td>
+                <td>{total}</td>
+                <td>{address}</td>
+                <td>
+                    {status === "processing" ? (
+                        <Button size="sm" onClick={() => markShipped(_id, owner?._id)}>
+                            Mark as shipped
+                        </Button>
+                    ) : (
+                        <Badge bg="success">Shipped</Badge>
+                    )}
+                </td>
+                <td>
+                    <span style={{ cursor: "pointer" }} onClick={() => showOrder(products)}>
+                        View order <i className="fa fa-eye"></i>
+                    </span>
+                </td>
+            </tr>
+        );
+    }
 
     function markShipped(id, ownerId) {
         axios
             .patch(`/orders/${id}/mark-shipped`, {
-                socketId: socketConnection.id,
                 ownerId,
             })
             .then(({ data }) => setOrders(data))
@@ -51,32 +80,45 @@ function DashboardOrders() {
     if (!orders?.length) {
         return <h2 className="text-center pt-4">No orders yet</h2>;
     }
-    function onDeleteRow(rows) {
-        deleteMany(rows);
-    }
-    const options = {
-        onDeleteRow,
-        paginationShowsTotal: true, // Enable showing total text
-        onRowClick: function (row) {
-            alert(row);
-            console.log(row);
-        },
-    };
-    const selectRow = {
-        mode: "checkbox",
-    };
+
     return (
-        <BootstrapTable data={orders} options={options} selectRow={selectRow} striped={true} hover={true} pagination deleteRow version="4">
-            <TableHeaderColumn width="30%" dataField="_id" isKey={true} dataAlign="center" dataSort={true} searchable={true}>
-                Order ID
-            </TableHeaderColumn>
-            <TableHeaderColumn width="35%" dataField="owner.name" dataSort={true}>
-                Client
-            </TableHeaderColumn>
-            <TableHeaderColumn width="35%" dataField="total">
-                Total($)
-            </TableHeaderColumn>
-        </BootstrapTable>
+        <>
+            <Table striped bordered hover responsive>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Client Name</th>
+                        <th>Items</th>
+                        <th>Order Total</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <Pagination data={orders} RenderComponent={TableRow} pageLimit={Math.floor(orders.length / 10)} dataLimit={10} tablePagination={true} />
+                </tbody>
+            </Table>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Order details</Modal.Title>
+                </Modal.Header>
+                {orderToShow.map((product) => (
+                    <div className="order-details__container">
+                        <img src={product.pictures[0].url} style={{ maxWidth: 100, height: 100, objectFit: "cover" }} />
+                        <p>
+                            <span>{product.count} x </span>
+                            {product.name}
+                        </p>
+                        <p>Price: ${Number(product.price) * product.count}</p>
+                    </div>
+                ))}
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 }
 

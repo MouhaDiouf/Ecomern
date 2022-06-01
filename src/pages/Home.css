@@ -1,5 +1,5 @@
 .category-tile {
-    height: 300px;
+    height: 250px;
     background-size: cover;
     background-position: center;
     padding-left: 20px !important;
@@ -10,6 +10,8 @@
     color: white;
     font-size: 30px;
     cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 30px;
 }
 
 .home-banner {
@@ -23,4 +25,14 @@
 }
 img.card-img-top.product-preview-img {
     border-radius: 10px;
+}
+
+.category-tile:hover {
+    transform: scale(1.05);
+}
+
+.sale__banner--container img {
+    max-width: 1200px;
+    display: block;
+    margin: 0 auto;
 }

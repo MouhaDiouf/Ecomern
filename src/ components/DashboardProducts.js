@@ -1,38 +1,46 @@
 import React from "react";
-import { Badge, Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { useDeleteProductsMutation } from "../services/appApi";
-import { BootstrapTable, DeleteButton } from "react-bootstrap-table";
-import { TableHeaderColumn } from "react-bootstrap-table";
+import { useDeleteProductMutation } from "../services/appApi";
+import Pagination from "./Pagination";
 
 function DashboardProducts() {
     const products = useSelector((state) => state.products);
-    const [deleteProducts, { isLoading, isSuccess }] = useDeleteProductsMutation();
-
-    function onDeleteRow(rows) {
-        deleteProducts(rows);
+    const [deleteProduct] = useDeleteProductMutation();
+    function TableRow({ _id, name, price, pictures }) {
+        return (
+            <tr>
+                <td>
+                    <img src={pictures[0].url} className="dashboard-product-preview" />
+                </td>
+                <td>{_id}</td>
+                <td>{name}</td>
+                <td>{price}</td>
+                <td>
+                    <Button onClick={() => deleteProduct(_id)} variant="danger">
+                        Delete
+                    </Button>
+                    <Button onClick={() => deleteProduct(_id)} variant="warning">
+                        Edit
+                    </Button>
+                </td>
+            </tr>
+        );
     }
-
-    const options = {
-        onDeleteRow,
-        paginationShowsTotal: true, // Enable showing total text
-    };
-    const selectRow = {
-        mode: "checkbox",
-    };
     return (
-        <BootstrapTable data={products} options={options} selectRow={selectRow} striped={true} hover={true} pagination deleteRow>
-            <TableHeaderColumn width="30%" dataField="_id" isKey={true} dataAlign="center" dataSort={true} searchable={true}>
-                Product ID
-            </TableHeaderColumn>
-            <TableHeaderColumn width="30%" dataField="name" dataSort={true}>
-                Product Name
-            </TableHeaderColumn>
-            <TableHeaderColumn width="30%" dataField="price">
-                Product Price ($)
-            </TableHeaderColumn>
-        </BootstrapTable>
+        <Table striped bordered hover responsive>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th> Product Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <Pagination data={products} RenderComponent={TableRow} pageLimit={Math.floor(products.length / 10)} dataLimit={10} tablePagination={true} />
+            </tbody>
+        </Table>
     );
 }
 

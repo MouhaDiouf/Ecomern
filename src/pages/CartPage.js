@@ -1,10 +1,9 @@
-import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
-import { Col, Container, Row, Table, Form } from "react-bootstrap";
+import { Col, Container, Row, Table, Form, Alert } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useRemoveFromCartMutation, useIncreaseCartProductMutation, useDecreaseCartProductMutation } from "../services/appApi";
 import "./CartPage.css";
-//https://support.undsgn.com/hc/article_attachments/360009979057/doc-cc-intro-min.jpg
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../ components/CheckoutForm";
 import { Navigate } from "react-router-dom";
@@ -15,7 +14,7 @@ function CartPage() {
     const products = useSelector((state) => state.products);
     const userCartObj = user.cart;
     let cart = products.filter((product) => userCartObj[product._id] != null);
-    const [removeFromCart, { isLoading, isError }] = useRemoveFromCartMutation();
+    const [removeFromCart] = useRemoveFromCartMutation();
     const [increaseCart] = useIncreaseCartProductMutation();
     const [decreaseCart] = useDecreaseCartProductMutation();
     const [paying, setPaying] = useState(false);
@@ -32,14 +31,16 @@ function CartPage() {
         <Container style={{ minHeight: "95vh" }} className="cart-container">
             <Row>
                 <h1 className="pt-2 h3">Shopping cart</h1>
-                <Elements stripe={stripePromise}>
-                    <CheckoutForm total={cart.total} paying={paying} setPaying={setPaying} />
-                </Elements>
+                {cart.length == 0 ? (
+                    <Alert variant="info">Shopping cart is empty. Add products to your cart.</Alert>
+                ) : (
+                    <Elements stripe={stripePromise}>
+                        <CheckoutForm total={cart.total} paying={paying} setPaying={setPaying} />
+                    </Elements>
+                )}
 
                 <Col md={5}>
-                    {cart.length == 0 ? (
-                        <h2>Your cart is empty</h2>
-                    ) : (
+                    {cart.length > 0 && (
                         <>
                             <Table responsive="sm" className="cart-table">
                                 <thead>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Container, Button, Row, Col, Alert, FloatingLabel } from "react-bootstrap";
+import { Form, Container, Button, Row, Col, Alert } from "react-bootstrap";
 import { useUpdateProductMutation } from "../services/appApi";
 import { useNavigate, useParams } from "react-router-dom";
 import "./NewProductPage.css";
@@ -59,7 +59,7 @@ function EditProductPage() {
         let widget = window.cloudinary.createUploadWidget(
             {
                 cloudName: "learn-code-10",
-                uploadPreset: "d9ri4a5y",
+                uploadPreset: "dcizdwph",
             },
             (error, result) => {
                 if (!error && result && result.event === "success") {

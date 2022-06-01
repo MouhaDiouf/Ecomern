@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Container, Button, Row, Col, Alert, FloatingLabel } from "react-bootstrap";
+import { Form, Container, Button, Row, Col, Alert } from "react-bootstrap";
 import { useCreateProductMutation } from "../services/appApi";
 import { useNavigate } from "react-router-dom";
 import "./NewProductPage.css";
@@ -32,7 +32,6 @@ function NewProductPage() {
         }
         createProduct({ name, description, price, category, images }).then(({ data }) => {
             if (data.length > 0) {
-                alert("product created");
                 setTimeout(() => {
                     navigate("/");
                 }, 2000);
@@ -44,7 +43,7 @@ function NewProductPage() {
         let widget = window.cloudinary.createUploadWidget(
             {
                 cloudName: "learn-code-10",
-                uploadPreset: "d9ri4a5y",
+                uploadPreset: "dcizdwph",
             },
             (error, result) => {
                 if (!error && result && result.event === "success") {
@@ -60,7 +59,7 @@ function NewProductPage() {
                 <Col md={6} className="signup__form--container">
                     <Form style={{ width: "100%" }} onSubmit={handleSubmit}>
                         <h1 className="text-center">Create a product</h1>
-                        {isSuccess && <p>Product created with success</p>}
+                        {isSuccess && <Alert variant="success">Product created with success</Alert>}
                         {isError && <Alert variant="danger">{error.data}</Alert>}
                         <Form.Group className="mb-3" controlId="formGroupName">
                             <Form.Label>Product Name</Form.Label>

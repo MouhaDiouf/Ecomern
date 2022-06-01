@@ -7,8 +7,6 @@ import DashboardProducts from "../ components/DashboardProducts";
 import DashboardOrders from "../ components/DashboardOrders";
 import DashboardClients from "../ components/DashboardClients";
 function Dashboard() {
-    const products = useSelector((state) => state.products);
-    const [currentTab, setCurrentTab] = useState("products");
     useEffect(() => {
         axios.get("/products").then((res) => console.log(res));
     });

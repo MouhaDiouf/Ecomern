@@ -57,6 +57,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.paginationItem.active {
+    background-color: #999;
+}
 
 .prev,
 .next {
@@ -69,11 +72,11 @@
     cursor: pointer;
 }
 
-.paginationItem.active {
+/* .paginationItem.active {
     border: 1px solid #888;
     color: #888;
     pointer-events: none;
-}
+} */
 
 .prev.disabled,
 .next.disabled {
@@ -89,4 +92,25 @@
 
 .notification-read {
     background-color: lightcoral;
+}
+
+.nav-pills .nav-link {
+    cursor: pointer;
+}
+
+.pagination {
+    margin-top: 30px;
+}
+
+.dashboard-product-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.order-details__container {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+    padding: 10px 0;
 }

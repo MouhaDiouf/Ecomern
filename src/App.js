@@ -14,35 +14,38 @@ import CategoryPage from "./pages/CategoryPage";
 import Orders from "./pages/Orders";
 import Dashboard from "./pages/Dashboard";
 import EditProductPage from "./pages/EditProductPage";
+import { AppContext, socket } from "./AppContext";
+
 function App() {
     const user = useSelector((state) => state.user);
-
     return (
-        <div className="App">
-            <BrowserRouter>
-                <ScrollToTop />
-                <Navigation />
-                <Routes>
-                    <Route index element={<Home />} />
-                    {user && <Route path="/cart" element={<CartPage />} />}
-                    <Route path="/product/:id" element={<ProductPage />} />
-                    <Route path="/product/:id/edit" element={<EditProductPage />} />
-                    <Route path="/new-product" element={<NewProductPage />} />
-                    <Route path="/category/:category" element={<CategoryPage />} />
-                    <Route path="/orders" element={<Orders />} />
+        <AppContext.Provider value={{ socket }}>
+            <div className="App">
+                <BrowserRouter>
+                    <ScrollToTop />
+                    <Navigation />
+                    <Routes>
+                        <Route index element={<Home />} />
+                        {user && <Route path="/cart" element={<CartPage />} />}
+                        <Route path="/product/:id" element={<ProductPage />} />
+                        <Route path="/product/:id/edit" element={<EditProductPage />} />
+                        <Route path="/new-product" element={<NewProductPage />} />
+                        <Route path="/category/:category" element={<CategoryPage />} />
+                        <Route path="/orders" element={<Orders socket={socket} />} />
 
-                    {user && user.isAdmin && <Route path="/dashboard/*" element={<Dashboard />} />}
-                    {!user && (
-                        <>
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="/login" element={<Login />} />
-                        </>
-                    )}
-                    <Route path="*" element={<Home />} />
-                </Routes>
-            </BrowserRouter>
-            <Footer />
-        </div>
+                        {user && user.isAdmin && <Route path="/dashboard/*" element={<Dashboard />} />}
+                        {!user && (
+                            <>
+                                <Route path="/signup" element={<Signup />} />
+                                <Route path="/login" element={<Login />} />
+                            </>
+                        )}
+                        <Route path="*" element={<Home />} />
+                    </Routes>
+                </BrowserRouter>
+                <Footer />
+            </div>
+        </AppContext.Provider>
     );
 }
 

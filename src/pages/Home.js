@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Container } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import HomeCarousel from "../ components/HomeCarousel";
 import ProductPreview from "../ components/ProductPreview";
 // import { useGetProductsQuery } from "../services/appApi";
 import categories from "../categories";
@@ -13,10 +12,8 @@ import { updateProducts } from "../features/productSlice";
 
 function Home() {
     const dispatch = useDispatch();
-    // https://dribbble.com/shots/14135972-Search/attachments/5760102?mode=media
-    // const { data, error, isLoading } = useGetProductsQuery();
     useEffect(() => {
-        axios.get("/products").then(({ data }) => dispatch(updateProducts({ data })));
+        axios.get("/products").then(({ data }) => dispatch(updateProducts({ data: data.reverse() })));
     }, []);
     const products = useSelector((state) => state.products);
 
@@ -24,7 +21,7 @@ function Home() {
 
     return (
         <div>
-            <HomeCarousel />
+            <img src="https://res.cloudinary.com/learn-code-10/image/upload/v1653947013/yqajnhqf7usk56zkwqi5.png" className="home-banner" />;
             <div className="featured-products-container container mt-4">
                 <h2>Last products</h2>
                 <div className="d-flex justify-content-center flex-wrap">
@@ -37,6 +34,9 @@ function Home() {
                         See more {">>"}
                     </Link>
                 </div>
+            </div>
+            <div className="sale__banner--container mt-4">
+                <img src="https://res.cloudinary.com/learn-code-10/image/upload/v1654093280/xkia6f13xxlk5xvvb5ed.png" />
             </div>
             <div className="recent-products-container container mt-4">
                 <h2>Categories</h2>

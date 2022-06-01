@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-export default function Pagination({ data, RenderComponent, title, pageLimit, dataLimit }) {
-    const [pages, setPages] = useState(Math.round(data.length / dataLimit) + 1);
+export default function Pagination({ data, RenderComponent, title, pageLimit, dataLimit, tablePagination }) {
+    const [pages] = useState(Math.round(data.length / dataLimit) + 1);
     const [currentPage, setCurrentPage] = useState(1);
 
     function goToNextPage() {
@@ -30,15 +30,19 @@ export default function Pagination({ data, RenderComponent, title, pageLimit, da
     };
 
     return (
-        <div>
-            <h1>{title}</h1>
-
+        <>
             {/* show the posts, 10 posts at a time */}
-            <div className="dataContainer d-flex justify-content-center flex-wrap">
-                {getPaginatedData().map((data, idx) => (
-                    <RenderComponent key={idx} {...data} />
-                ))}
-            </div>
+            {tablePagination ? (
+                getPaginatedData().map((data, idx) => <RenderComponent key={idx} {...data} />)
+            ) : (
+                <div className="dataContainer d-flex justify-content-center flex-wrap">
+                    <h1>{title}</h1>
+
+                    {getPaginatedData().map((data, idx) => (
+                        <RenderComponent key={idx} {...data} />
+                    ))}
+                </div>
+            )}
 
             {/* show the pagiantion
             it consists of next and previous buttons
@@ -54,17 +58,17 @@ export default function Pagination({ data, RenderComponent, title, pageLimit, da
 
                     {/* show page numbers */}
                     {getPaginationGroup().map((item, index) => (
-                        <button key={index} onClick={changePage} className={`paginationItem ${currentPage === item ? "active" : null}`}>
+                        <button key={index} onClick={changePage} className={`paginationItem ${currentPage === item ? "active" : ""}`}>
                             <span>{item}</span>
                         </button>
                     ))}
 
                     {/* next button */}
-                    <button onClick={goToNextPage} className={`next ${currentPage === pages ? "disabled" : ""}`}>
+                    <button onClick={goToNextPage} className={`next ${currentPage >= pages - 1 ? "disabled" : ""}`}>
                         next
                     </button>
                 </div>
             )}
-        </div>
+        </>
     );
 }

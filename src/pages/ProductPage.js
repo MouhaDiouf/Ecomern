@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row, Button, ButtonGroup, Form, Spinner } from "react-bootstrap";
-import Rating from "react-rating";
+import { Col, Container, Row, Button, ButtonGroup, Form, Badge } from "react-bootstrap";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-// Look for alice css in app.css as well
-import appleWatchFirst from "../images/apple-watch__second--slide.png";
-import appleWatchThird from "../images/apple-watch__third--slide.png";
 import "./ProductPage.css";
 import SimilarProduct from "../ components/SimilarProduct";
 import { useAddToCartMutation } from "../services/appApi";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "../axios";
 import Loading from "../ components/Loading";
 import { LinkContainer } from "react-router-bootstrap";
@@ -25,14 +21,11 @@ function ProductPage() {
     };
     const user = useSelector((state) => state.user);
     const [addToCart, { isError, isLoading, error }] = useAddToCartMutation();
-    const [loading, setLoading] = useState(false);
     const [product, setProduct] = useState(null);
     const [similar, setSimilar] = useState(null);
     const handleDragStart = (e) => e.preventDefault();
     useEffect(() => {
-        setLoading(true);
         axios.get(`/products/${id}`).then(({ data }) => {
-            setLoading(false);
             setProduct(data.product);
             setSimilar(data.similar);
         });
@@ -42,7 +35,6 @@ function ProductPage() {
         return <Loading />;
     }
 
-    // const images = [<img className="product__carousel--image" src={appleWatchThird} onDragStart={handleDragStart} />, <img className="product__carousel--image" src={appleWatchThird} onDragStart={handleDragStart} />];
     const images = product.pictures.map((picture) => <img className="product__carousel--image" src={picture.url} onDragStart={handleDragStart} />);
 
     let similarProducts = [];
@@ -63,10 +55,10 @@ function ProductPage() {
                     </Col>
                     <Col lg={6} className="pt-4">
                         <h1>{product.name}</h1>
+                        <p>
+                            <Badge bg="primary">{product.category}</Badge>
+                        </p>
                         <p className="product--price">${product.price}</p>
-                        <div>
-                            <Rating initialRating={4} />
-                        </div>
                         <p style={{ texAlign: "justify" }} className="py-3">
                             <strong>Description:</strong> {product.description}
                         </p>
