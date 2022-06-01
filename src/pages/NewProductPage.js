@@ -40,10 +40,11 @@ function NewProductPage() {
     }
 
     const showWidget = () => {
+        console.log("WIDGET", process.env.REACT_APP_CLOUDINARY_PRESET, process.env);
         let widget = window.cloudinary.createUploadWidget(
             {
                 cloudName: "learn-code-10",
-                uploadPreset: "dcizdwph",
+                uploadPreset: "smdfljsdfmlskdjf",
             },
             (error, result) => {
                 if (!error && result && result.event === "success") {
