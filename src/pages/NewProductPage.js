@@ -25,6 +25,7 @@ function NewProductPage() {
             })
             .catch((e) => console.log(e));
     }
+
     function handleSubmit(e) {
         e.preventDefault();
         if (!name || !description || !price || !category || !images.length) {
@@ -40,11 +41,10 @@ function NewProductPage() {
     }
 
     const showWidget = () => {
-        console.log("WIDGET", process.env.REACT_APP_CLOUDINARY_PRESET, process.env);
         let widget = window.cloudinary.createUploadWidget(
             {
                 cloudName: "learn-code-10",
-                uploadPreset: "smdfljsdfmlskdjf",
+                uploadPreset: "dcizdwph",
             },
             (error, result) => {
                 if (!error && result && result.event === "success") {
@@ -54,6 +54,7 @@ function NewProductPage() {
         );
         widget.open();
     };
+
     return (
         <Container style={{ minHeight: "100vh" }} className="signup__container">
             <Row>
@@ -66,14 +67,17 @@ function NewProductPage() {
                             <Form.Label>Product Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter product name" value={name} onChange={(e) => setName(e.target.value)} required />
                         </Form.Group>
+
                         <Form.Group className="mb-3" controlId="formGroupdescription">
                             <Form.Label>Description</Form.Label>
                             <Form.Control as="textarea" placeholder="Product description" style={{ height: "100px" }} required onChange={(e) => setDescription(e.target.value)} />
                         </Form.Group>
+
                         <Form.Group className="mb-3">
                             <Form.Label>Price($)</Form.Label>
                             <Form.Control type="number" placeholder="Price ($)" required onChange={(e) => setPrice(e.target.value)} />
                         </Form.Group>
+
                         <Form.Group className="mb-3" onChange={(e) => setCategory(e.target.value)}>
                             <Form.Label>Category</Form.Label>
                             <Form.Select aria-label="category">
@@ -83,8 +87,10 @@ function NewProductPage() {
                                 <option value="technology">technology</option>
                                 <option value="tablets">tablets</option>
                                 <option value="laptops">laptops</option>
+                                <option value="phones">phones</option>
                             </Form.Select>
                         </Form.Group>
+
                         <Form.Group className="mb-3">
                             <Button onClick={showWidget} type="button">
                                 Upload Images
@@ -98,6 +104,7 @@ function NewProductPage() {
                                 ))}
                             </div>
                         </Form.Group>
+
                         <Form.Group>
                             <Button type="submit" disabled={isLoading || isSuccess}>
                                 Create Product

@@ -1,19 +1,17 @@
 import axios from "../axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Badge, Container, Table, Modal, Spinner } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./Orders.css";
-import { addNotification } from "../features/userSlice";
 import Pagination from "../ components/Pagination";
-import { AppContext } from "../AppContext";
 
 function Orders() {
     const user = useSelector((state) => state.user);
     const products = useSelector((state) => state.products);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [refresh, setRefresh] = useState(false);
     const [orderToShow, setOrderToShow] = useState([]);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -21,32 +19,11 @@ function Orders() {
             setLoading(false);
             setOrders(data);
         });
-    }, [refresh]);
-    const { socket } = useContext(AppContext);
+    }, []);
 
-    const dispatch = useDispatch();
-
-    socket.on("ordercreated", (msgObj) => {
-        console.log("new order", msgObj);
-        if (user.isAdmin) {
-            alert("new order");
-            console.log("new order", msgObj);
-            dispatch(addNotification(msgObj));
-        }
-    });
-
-    socket.off("notification").on("notification", (msgObj, user_id) => {
-        if (user_id == user._id) {
-            dispatch(addNotification(msgObj));
-            setRefresh(!refresh);
-        }
-    });
-
-    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
 
     function showOrder(productsObj) {
-        console.log("Show order called on product", productsObj);
         let productsToShow = products.filter((product) => productsObj[product._id]);
         productsToShow = productsToShow.map((product) => {
             const productCopy = { ...product };
@@ -54,7 +31,6 @@ function Orders() {
             delete productCopy.description;
             return productCopy;
         });
-        console.log(productsToShow);
         setShow(true);
         setOrderToShow(productsToShow);
     }
@@ -85,6 +61,7 @@ function Orders() {
     if (!orders.length) {
         return <h1 className="text-center pt-3">No orders yet</h1>;
     }
+
     return (
         <Container>
             <h1 className="text-center">Your orders</h1>
@@ -99,7 +76,7 @@ function Orders() {
                     </tr>
                 </thead>
                 <tbody>
-                    <Pagination data={orders} RenderComponent={TableRow} pageLimit={Math.floor(orders.length / 10)} dataLimit={10} tablePagination={true} />
+                    <Pagination data={orders} RenderComponent={TableRow} pageLimit={1} dataLimit={10} tablePagination={true} />
                 </tbody>
             </Table>
             <Modal show={show} onHide={handleClose}>

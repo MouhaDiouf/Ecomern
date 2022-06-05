@@ -12,7 +12,6 @@ const CategoryPage = () => {
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [sidebarProduct, setSidebarProduct] = useState(null);
     useEffect(() => {
         setLoading(true);
         axios
@@ -48,11 +47,7 @@ const CategoryPage = () => {
                 <Container>
                     <Row>
                         <Col md={{ span: 10, offset: 1 }}>
-                            {productSearch.length === 0 && searchTerm ? (
-                                <h2 className="text-center">No results found</h2>
-                            ) : (
-                                <Pagination data={productSearch} RenderComponent={ProductPreview} pageLimit={Math.floor(productSearch.length / 10)} dataLimit={10} />
-                            )}
+                            {productSearch.length === 0 && searchTerm ? <h2 className="text-center">No results found</h2> : <Pagination data={productSearch} RenderComponent={ProductPreview} pageLimit={1} dataLimit={10} />}
                         </Col>
                     </Row>
                 </Container>

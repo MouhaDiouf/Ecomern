@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import axios from "../axios";
-import { useDeleteUsersMutation } from "../services/appApi";
 import Loading from "./Loading";
 import Pagination from "./Pagination";
 function DashboardClients() {
     const [users, setUsers] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [deleteUser, { isSuccess }] = useDeleteUsersMutation();
-    function handleDeleteUser(id) {
-        if (window.confirm("Are you sure?")) deleteUser(id).then(({ data }) => setUsers(data));
-    }
 
     function TableRow({ _id, name, email }) {
         return (
@@ -18,11 +13,6 @@ function DashboardClients() {
                 <td>{_id}</td>
                 <td>{name}</td>
                 <td>{email}</td>
-                <td>
-                    <Button onClick={() => handleDeleteUser(_id)} variant="danger">
-                        Delete
-                    </Button>
-                </td>
             </tr>
         );
     }
@@ -38,7 +28,7 @@ function DashboardClients() {
                 setLoading(false);
                 console.log(e);
             });
-    }, [isSuccess]);
+    }, []);
     if (loading) {
         return <Loading />;
     }
@@ -55,7 +45,7 @@ function DashboardClients() {
                 </tr>
             </thead>
             <tbody>
-                <Pagination data={users} RenderComponent={TableRow} pageLimit={Math.floor(users.length / 5)} dataLimit={5} tablePagination={true} />
+                <Pagination data={users} RenderComponent={TableRow} pageLimit={1} dataLimit={10} tablePagination={true} />
             </tbody>
         </Table>
     );

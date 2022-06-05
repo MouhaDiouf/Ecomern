@@ -7,15 +7,15 @@ import axios from "../axios";
 
 function EditProductPage() {
     const { id } = useParams();
-    console.log("product id is ", id);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
     const [images, setImages] = useState([]);
-    const navigate = useNavigate();
     const [updateProduct, { isError, error, isLoading, isSuccess }] = useUpdateProductMutation();
     const [imgToRemove, setImgToRemove] = useState(null);
+    const navigate = useNavigate();
+
     useEffect(() => {
         axios
             .get(`/products/${id}`)
@@ -29,6 +29,7 @@ function EditProductPage() {
             })
             .catch((e) => console.log(e));
     }, [id]);
+
     function handleRemoveImg(imgObj) {
         console.log("handle remove called");
         setImgToRemove(imgObj.public_id);
@@ -40,6 +41,7 @@ function EditProductPage() {
             })
             .catch((e) => console.log(e));
     }
+
     function handleSubmit(e) {
         e.preventDefault();
         if (!name || !description || !price || !category || !images.length) {
@@ -81,14 +83,17 @@ function EditProductPage() {
                             <Form.Label>Product Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter product name" value={name} onChange={(e) => setName(e.target.value)} required />
                         </Form.Group>
+
                         <Form.Group className="mb-3" controlId="formGroupdescription">
                             <Form.Label>Description</Form.Label>
                             <Form.Control as="textarea" value={description} placeholder="Product description" style={{ height: "100px" }} required onChange={(e) => setDescription(e.target.value)} />
                         </Form.Group>
+
                         <Form.Group className="mb-3">
                             <Form.Label>Price($)</Form.Label>
                             <Form.Control type="number" value={price} placeholder="Price ($)" required onChange={(e) => setPrice(e.target.value)} />
                         </Form.Group>
+
                         <Form.Group className="mb-3" onChange={(e) => setCategory(e.target.value)}>
                             <Form.Label>Category</Form.Label>
                             <Form.Select aria-label="category" value={category}>
@@ -100,6 +105,7 @@ function EditProductPage() {
                                 <option value="laptops">laptops</option>
                             </Form.Select>
                         </Form.Group>
+
                         <Form.Group className="mb-3">
                             <Button onClick={showWidget} type="button">
                                 Upload Images
@@ -113,6 +119,7 @@ function EditProductPage() {
                                 ))}
                             </div>
                         </Form.Group>
+
                         <Form.Group>
                             <Button type="submit" disabled={isLoading || isSuccess}>
                                 Update Product

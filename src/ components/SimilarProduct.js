@@ -2,7 +2,7 @@ import React from "react";
 import { Badge, Button, Card } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./ProductPreview.css";
-function SimilarProduct({ _id, name, price, category, pictures }) {
+function SimilarProduct({ _id, name, category, pictures }) {
     return (
         <LinkContainer to={`/product/${_id}`} style={{ cursor: "pointer", width: "20rem", margin: "10px" }}>
             <Card style={{ width: "20rem", margin: "10px" }}>

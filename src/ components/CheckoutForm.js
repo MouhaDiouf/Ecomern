@@ -12,7 +12,7 @@ function CheckoutForm({ total, paying, setPaying }) {
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
     const [alertMessage, setAlertMessage] = useState("");
-    const [createOrder, { isLoading, error, isSuccess, isError }] = useCreateOrderMutation();
+    const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
     const [country, setCountry] = useState("");
     const [address, setAddress] = useState("");
     async function handlePay(e) {

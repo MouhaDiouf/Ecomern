@@ -1,12 +1,19 @@
 import React from "react";
 import { Button, Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
 import { useDeleteProductMutation } from "../services/appApi";
 import Pagination from "./Pagination";
 
 function DashboardProducts() {
     const products = useSelector((state) => state.products);
+    const user = useSelector((state) => state.user);
     const [deleteProduct] = useDeleteProductMutation();
+
+    function handleDeleteProduct(id) {
+        if (window.confirm("Are you sure?")) deleteProduct({ product_id: id, user_id: user._id });
+    }
     function TableRow({ _id, name, price, pictures }) {
         return (
             <tr>
@@ -17,12 +24,12 @@ function DashboardProducts() {
                 <td>{name}</td>
                 <td>{price}</td>
                 <td>
-                    <Button onClick={() => deleteProduct(_id)} variant="danger">
+                    <Button onClick={() => handleDeleteProduct(_id, user._id)} variant="danger">
                         Delete
                     </Button>
-                    <Button onClick={() => deleteProduct(_id)} variant="warning">
+                    <Link to={`/product/${_id}/edit`} className="btn btn-warning">
                         Edit
-                    </Button>
+                    </Link>
                 </td>
             </tr>
         );
@@ -38,7 +45,7 @@ function DashboardProducts() {
                 </tr>
             </thead>
             <tbody>
-                <Pagination data={products} RenderComponent={TableRow} pageLimit={Math.floor(products.length / 10)} dataLimit={10} tablePagination={true} />
+                <Pagination data={products} RenderComponent={TableRow} pageLimit={1} dataLimit={10} tablePagination={true} />
             </tbody>
         </Table>
     );

@@ -13,6 +13,7 @@ function Login() {
         e.preventDefault();
         login({ email, password });
     }
+
     return (
         <Container style={{ minHeight: "100vh" }} className="signup__container">
             <Row>
@@ -24,20 +25,24 @@ function Login() {
                             <Form.Label>Email address</Form.Label>
                             <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         </Form.Group>
+
                         <Form.Group className="mb-3" controlId="formGroupPassword">
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                         </Form.Group>
+
                         <Form.Group>
                             <Button type="submit" disabled={isLoading}>
                                 Login
                             </Button>
                         </Form.Group>
+
                         <p className="pt-3 text-center">
                             Don't have a account? <Link to="/signup">Signup</Link>
                         </p>
                     </Form>
                 </Col>
+
                 <Col md={6} className="login__image--container"></Col>
             </Row>
         </Container>

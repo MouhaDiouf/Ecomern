@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function Pagination({ data, RenderComponent, title, pageLimit, dataLimit, tablePagination }) {
-    const [pages] = useState(Math.round(data.length / dataLimit) + 1);
+    const [pages] = useState(Math.floor(data.length / dataLimit) + 1);
     const [currentPage, setCurrentPage] = useState(1);
 
     function goToNextPage() {
@@ -26,6 +26,7 @@ export default function Pagination({ data, RenderComponent, title, pageLimit, da
 
     const getPaginationGroup = () => {
         let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
+
         return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
     };
 
@@ -64,7 +65,7 @@ export default function Pagination({ data, RenderComponent, title, pageLimit, da
                     ))}
 
                     {/* next button */}
-                    <button onClick={goToNextPage} className={`next ${currentPage >= pages - 1 ? "disabled" : ""}`}>
+                    <button onClick={goToNextPage} className={`next ${currentPage >= pages ? "disabled" : ""}`}>
                         next
                     </button>
                 </div>

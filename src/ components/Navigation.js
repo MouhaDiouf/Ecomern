@@ -10,8 +10,11 @@ import { useNavigate } from "react-router-dom";
 function Navigation() {
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    // bell reference
     const bellRef = useRef(null);
+    // notifications div ref
     const notificationsRef = useRef(null);
+    // bell position
     const [bellPos, setBellPos] = useState({});
     const navigate = useNavigate();
 
@@ -20,6 +23,7 @@ function Navigation() {
         navigate("/login");
     }
 
+    // show unread notifications
     const unreadNotifications = user?.notifications.reduce((acc, current) => {
         if (current.status == "unread") {
             return acc + 1;
@@ -44,11 +48,14 @@ function Navigation() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
+                        {/* if no user */}
                         {!user && (
                             <LinkContainer to="/login">
                                 <Nav.Link>Login</Nav.Link>
                             </LinkContainer>
                         )}
+
+                        {/* if user and is not admin */}
 
                         {user && !user.isAdmin && (
                             <LinkContainer to="/cart">
@@ -62,16 +69,27 @@ function Navigation() {
                                 </Nav.Link>
                             </LinkContainer>
                         )}
+
+                        {/* if user */}
+
                         {user && (
                             <>
-                                <Nav.Link style={{ position: "relative" }}>
-                                    <i className="fas fa-bell" ref={bellRef} data-count={unreadNotifications || null} onClick={handleToggleNotifications}></i>
+                                {/* notification icon placed relatively */}
+                                <Nav.Link style={{ position: "relative" }} onClick={handleToggleNotifications}>
+                                    <i className="fas fa-bell" ref={bellRef} data-count={unreadNotifications || null}></i>
                                 </Nav.Link>
+
+                                {/* navigation dropdown */}
                                 <NavDropdown title={`${user.email}`} id="basic-nav-dropdown">
                                     {user.isAdmin && (
-                                        <LinkContainer to="/dashboard">
-                                            <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                                        </LinkContainer>
+                                        <>
+                                            <LinkContainer to="/dashboard">
+                                                <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                                            </LinkContainer>
+                                            <LinkContainer to="/new-product">
+                                                <NavDropdown.Item>Create Product</NavDropdown.Item>
+                                            </LinkContainer>
+                                        </>
                                     )}
 
                                     {!user.isAdmin && (
@@ -84,13 +102,7 @@ function Navigation() {
                                             </LinkContainer>
                                         </>
                                     )}
-                                    {user.isAdmin && (
-                                        <>
-                                            <LinkContainer to="/new-product">
-                                                <NavDropdown.Item>Create Product</NavDropdown.Item>
-                                            </LinkContainer>
-                                        </>
-                                    )}
+
                                     <NavDropdown.Divider />
                                     <Button variant="danger" onClick={() => handleLogout()} className="logout-btn">
                                         Logout
@@ -101,7 +113,10 @@ function Navigation() {
                     </Nav>
                 </Navbar.Collapse>
             </Container>
-            <div className="notifications-container" ref={notificationsRef} style={{ position: "absolute", top: bellPos.top + 50, left: bellPos.left, display: "none" }}>
+
+            {/* notifications container placed absolutely */}
+
+            <div className="notifications-container" ref={notificationsRef} style={{ position: "absolute", top: bellPos.top + 30, left: bellPos.left, display: "none" }}>
                 {user?.notifications.length > 0 ? (
                     user.notifications.map((notification) => (
                         <p className={`notification-${notification.status}`}>

@@ -94,7 +94,7 @@ function DashboardOrders() {
                     </tr>
                 </thead>
                 <tbody>
-                    <Pagination data={orders} RenderComponent={TableRow} pageLimit={Math.floor(orders.length / 10)} dataLimit={10} tablePagination={true} />
+                    <Pagination data={orders} RenderComponent={TableRow} pageLimit={1} dataLimit={10} tablePagination={true} />
                 </tbody>
             </Table>
 

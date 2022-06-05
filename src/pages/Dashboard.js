@@ -10,6 +10,7 @@ function Dashboard() {
     useEffect(() => {
         axios.get("/products").then((res) => console.log(res));
     });
+
     return (
         <Container>
             <Tab.Container id="left-tabs-example" defaultActiveKey="products">
@@ -27,6 +28,7 @@ function Dashboard() {
                             </Nav.Item>
                         </Nav>
                     </Col>
+
                     <Col sm={9}>
                         <Tab.Content>
                             <Tab.Pane eventKey="products">

@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // Define a service using a base URL and expected endpoints
 export const appApi = createApi({
     reducerPath: "appApi",
-    baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API }),
+    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080" }),
     endpoints: (builder) => ({
         signup: builder.mutation({
             query: (user) => ({
@@ -13,6 +13,7 @@ export const appApi = createApi({
                 body: user,
             }),
         }),
+
         login: builder.mutation({
             query: (user) => ({
                 url: "/users/login",
@@ -20,13 +21,17 @@ export const appApi = createApi({
                 body: user,
             }),
         }),
-        deleteUsers: builder.mutation({
-            query: (rows) => ({
-                url: "/users/delete-many",
+
+        deleteUser: builder.mutation({
+            query: ({ client_id, current_user_id }) => ({
+                url: `/users/${client_id}/`,
                 method: "DELETE",
-                body: rows,
+                body: {
+                    current_user_id,
+                },
             }),
         }),
+
         addToCart: builder.mutation({
             query: (cartInfo) => ({
                 url: "/products/add-to-cart",
@@ -34,6 +39,7 @@ export const appApi = createApi({
                 method: "POST",
             }),
         }),
+
         createProduct: builder.mutation({
             query: (product) => ({
                 url: "/products",
@@ -43,10 +49,12 @@ export const appApi = createApi({
         }),
 
         deleteProduct: builder.mutation({
-            query: (body) => ({
-                url: `/products/delete-many`,
-                method: "POST",
-                body,
+            query: ({ product_id, user_id }) => ({
+                url: `/products/${product_id}`,
+                body: {
+                    user_id,
+                },
+                method: "DELETE",
             }),
         }),
 
@@ -65,6 +73,7 @@ export const appApi = createApi({
                 body,
             }),
         }),
+
         increaseCartProduct: builder.mutation({
             query: (body) => ({
                 url: `/products/increase-cart`,
@@ -72,6 +81,7 @@ export const appApi = createApi({
                 body,
             }),
         }),
+
         decreaseCartProduct: builder.mutation({
             query: (body) => ({
                 url: `/products/decrease-cart`,
@@ -90,8 +100,6 @@ export const appApi = createApi({
     }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const {
     useSignupMutation,
     useLoginMutation,
@@ -103,7 +111,7 @@ export const {
     useCreateOrderMutation,
     useUpdateProductMutation,
     useDeleteProductMutation,
-    useDeleteUsersMutation,
+    useDeleteUserMutation,
 } = appApi;
 
 export default appApi;

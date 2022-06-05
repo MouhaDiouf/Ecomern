@@ -14,15 +14,19 @@ function CartPage() {
     const products = useSelector((state) => state.products);
     const userCartObj = user.cart;
     let cart = products.filter((product) => userCartObj[product._id] != null);
+
     const [removeFromCart] = useRemoveFromCartMutation();
     const [increaseCart] = useIncreaseCartProductMutation();
     const [decreaseCart] = useDecreaseCartProductMutation();
     const [paying, setPaying] = useState(false);
+
+    // decrease cart
     function handleDecrease(e, product) {
         const quantity = Number(e.target.nextElementSibling.innerHTML);
         if (quantity <= 0) return alert("Can't proceed");
         decreaseCart(product);
     }
+
     if (!user) {
         return <Navigate to="/" replace />;
     }
@@ -31,6 +35,8 @@ function CartPage() {
         <Container style={{ minHeight: "95vh" }} className="cart-container">
             <Row>
                 <h1 className="pt-2 h3">Shopping cart</h1>
+                {/* if cart or not */}
+
                 {cart.length == 0 ? (
                     <Alert variant="info">Shopping cart is empty. Add products to your cart.</Alert>
                 ) : (
@@ -53,6 +59,7 @@ function CartPage() {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {/* loop through cart products */}
                                     {cart.map((item) => (
                                         <tr>
                                             <td>&nbsp;</td>
