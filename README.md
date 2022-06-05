@@ -2,8 +2,6 @@
 
 ![screenshot](./src/pictures/home-page-screenshot.png)
 
-![screenshot](./src/pictures/home-page-screenshot.png)
-
 ![screenshot](./src/pictures/product-page.png)
 
 ## Technologies
