@@ -23,6 +23,8 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        console.log("user is ", user);
+
         const socket = io("ws://ecomern-backend.herokuapp.com/");
         socket.off("notification").on("notification", (msgObj, user_id) => {
             if (user_id == user._id) {
