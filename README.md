@@ -19,13 +19,13 @@
 
 ## Live Version
 
-<a href="https://appointcar.netlify.app/" target="_blank" > Live version </a>
+<a href="https://ecomerce-mo.netlify.app/" target="_blank" > Live version </a>
 
 ## Usage
 
 ### Clone the project:
 
--   git clone https://github.com/MouhaDiouf/appointment
+-   git clone https://github.com/MouhaDiouf/Ecomern
 
 ### Run the project
 
@@ -54,7 +54,7 @@ You can also check <a href="https://mouhadiouf.com/" target="_blank"> my portfol
 
 ## Contributing
 
-1. Fork it (https://github.com/MouhaDiouf/ecomern)
+1. Fork it (https://github.com/MouhaDiouf/Ecomern)
 2. Create your feature branch (git checkout -b feature/[choose-a-name])
 3. Commit your changes (git commit -am 'What this commit will fix/add')
 4. Push to the branch (git push origin feature/[chosen name])
