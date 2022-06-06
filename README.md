@@ -19,7 +19,7 @@
 
 ## Live Version
 
-<a href="https://ecomerce-mo.netlify.app/" target="_blank" > Live version </a>
+<a href="https://ecomern.netlify.app/" target="_blank" > Live version </a>
 
 ## Usage
 
